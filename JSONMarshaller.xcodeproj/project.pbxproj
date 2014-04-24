@@ -25,6 +25,8 @@
 		8F31B22D1909704400271029 /* NSManagedObject+NGBParsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F31B22C1909704400271029 /* NSManagedObject+NGBParsing.m */; };
 		8F31B22F1909706200271029 /* NSManagedObjectParsingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F31B22E1909706200271029 /* NSManagedObjectParsingTests.m */; };
 		8F31B231190975D800271029 /* Model.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 8F31B2291909703800271029 /* Model.xcdatamodel */; };
+		8F31B23419097ABD00271029 /* NGBJSONMarshaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F31B23319097ABD00271029 /* NGBJSONMarshaller.m */; };
+		8F31B23619097CD900271029 /* NGBJSONMarshallerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F31B23519097CD900271029 /* NGBJSONMarshallerTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,9 @@
 		8F31B22B1909704400271029 /* NSManagedObject+NGBParsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+NGBParsing.h"; sourceTree = "<group>"; };
 		8F31B22C1909704400271029 /* NSManagedObject+NGBParsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+NGBParsing.m"; sourceTree = "<group>"; };
 		8F31B22E1909706200271029 /* NSManagedObjectParsingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSManagedObjectParsingTests.m; sourceTree = "<group>"; };
+		8F31B23219097ABD00271029 /* NGBJSONMarshaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NGBJSONMarshaller.h; path = Lib/NGBJSONMarshaller.h; sourceTree = "<group>"; };
+		8F31B23319097ABD00271029 /* NGBJSONMarshaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NGBJSONMarshaller.m; path = Lib/NGBJSONMarshaller.m; sourceTree = "<group>"; };
+		8F31B23519097CD900271029 /* NGBJSONMarshallerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGBJSONMarshallerTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +144,7 @@
 			children = (
 				8F31B2291909703800271029 /* Model.xcdatamodel */,
 				8F31B22E1909706200271029 /* NSManagedObjectParsingTests.m */,
+				8F31B23519097CD900271029 /* NGBJSONMarshallerTests.m */,
 				8F31B21919096FFF00271029 /* Supporting Files */,
 			);
 			path = JSONMarshallerTests;
@@ -158,6 +164,8 @@
 			children = (
 				8F31B22B1909704400271029 /* NSManagedObject+NGBParsing.h */,
 				8F31B22C1909704400271029 /* NSManagedObject+NGBParsing.m */,
+				8F31B23219097ABD00271029 /* NGBJSONMarshaller.h */,
+				8F31B23319097ABD00271029 /* NGBJSONMarshaller.m */,
 			);
 			name = Lib;
 			sourceTree = "<group>";
@@ -273,6 +281,8 @@
 			files = (
 				8F31B22D1909704400271029 /* NSManagedObject+NGBParsing.m in Sources */,
 				8F31B22A1909703800271029 /* Model.xcdatamodel in Sources */,
+				8F31B23419097ABD00271029 /* NGBJSONMarshaller.m in Sources */,
+				8F31B23619097CD900271029 /* NGBJSONMarshallerTests.m in Sources */,
 				8F31B22F1909706200271029 /* NSManagedObjectParsingTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

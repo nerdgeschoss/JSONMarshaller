@@ -14,15 +14,6 @@
 
 @implementation NSManagedObjectParsingTests
 
-- (void)tearDown
-{
-    self.model = nil;
-    self.coordinator = nil;
-    self.context = nil;
-    self.entityDescription = nil;
-    [super tearDown];
-}
-
 - (void)testHealth
 {
     XCTAssertNotNil(self.coordinator, @"coordinator should be initialized");
