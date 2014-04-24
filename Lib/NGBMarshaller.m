@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 nerdgeschoss GmbH. All rights reserved.
 //
 
-#import "NGBJSONMarshaller.h"
+#import "NGBMarshaller.h"
 #import "NSManagedObject+NGBParsing.h"
 
-@interface NGBJSONMarshaller()
+@interface NGBMarshaller()
 
 @property (nonatomic) NSEntityDescription* entity;
 @property (nonatomic) NSManagedObjectContext* managedObjectContext;
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation NGBJSONMarshaller
+@implementation NGBMarshaller
 
 - (instancetype)initWithEntity:(NSEntityDescription *)entity context:(NSManagedObjectContext *)context
 {
@@ -76,6 +76,7 @@
     return NO;
 }
 
+#pragma mark - Helper Methods
 
 - (NSManagedObject*)objectForServerID:(NSString*)serverID
 {

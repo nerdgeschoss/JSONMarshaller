@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@interface NGBJSONMarshaller : NSObject
+@interface NGBMarshaller : NSObject
 
 - (instancetype)initWithEntity:(NSEntityDescription*)entity context:(NSManagedObjectContext*)context;
 

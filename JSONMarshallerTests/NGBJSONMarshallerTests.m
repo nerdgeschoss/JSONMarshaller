@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import <CoreData/CoreData.h>
 
-#import "NGBJSONMarshaller.h"
+#import "NGBMarshaller.h"
 
 @interface NGBJSONMarshallerTests : XCTestCase
 
@@ -111,9 +111,9 @@
 
 #pragma mark - Convenience
 
-- (NGBJSONMarshaller*)createMarshaller
+- (NGBMarshaller*)createMarshaller
 {
-    return [[NGBJSONMarshaller alloc] initWithEntity:self.entityDescription context:self.context];
+    return [[NGBMarshaller alloc] initWithEntity:self.entityDescription context:self.context];
 }
 
 - (NSManagedObject*)createObject
