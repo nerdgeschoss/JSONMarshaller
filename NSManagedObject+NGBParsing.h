@@ -13,4 +13,6 @@
 - (void)ngb_applyFields:(NSDictionary*)fields;
 - (NSDictionary*)ngb_fields;
 
+- (void)ngb_performWriting:(void(^)(NSManagedObjectContext* context, id object))writingBlock;
+
 @end

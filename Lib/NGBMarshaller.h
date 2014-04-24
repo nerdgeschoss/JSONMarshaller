@@ -11,6 +11,9 @@
 
 @interface NGBMarshaller : NSObject
 
+@property (nonatomic, readonly) NSEntityDescription* entity;
+@property (nonatomic, readonly) NSManagedObjectContext* managedObjectContext;
+
 - (instancetype)initWithEntity:(NSEntityDescription*)entity context:(NSManagedObjectContext*)context;
 
 - (NSManagedObject*)createObjectWithID:(NSString*)identifier fields:(NSDictionary*)fields;

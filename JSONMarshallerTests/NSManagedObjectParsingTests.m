@@ -1,25 +1,11 @@
-#import <XCTest/XCTest.h>
-#import <CoreData/CoreData.h>
+#import "NGBTestCase.h"
 #import "NSManagedObject+NGBParsing.h"
 
-@interface NSManagedObjectParsingTests : XCTestCase
-
-@property (nonatomic) NSManagedObjectModel* model;
-@property (nonatomic) NSPersistentStoreCoordinator* coordinator;
-@property (nonatomic) NSManagedObjectContext* context;
-@property (nonatomic) NSEntityDescription* entityDescription;
-
+@interface NSManagedObjectParsingTests : NGBTestCase
 
 @end
 
 @implementation NSManagedObjectParsingTests
-
-- (void)testHealth
-{
-    XCTAssertNotNil(self.coordinator, @"coordinator should be initialized");
-    XCTAssertNotNil(self.context, @"there should be a context");
-    XCTAssertNotNil(self.entityDescription, @"there should be an entity in the specified context");
-}
 
 - (void)testDeserializing
 {
@@ -84,49 +70,5 @@
     XCTAssertEqualObjects([object valueForKey:@"title"], newTitle, @"should have an updated title");
 }
 
-#pragma mark - Convenience Fetch
-
-- (NSManagedObject*)getFirstObject
-{
-    NSFetchRequest* request = [[NSFetchRequest alloc] initWithEntityName:self.entityDescription.name];
-    return [[self.context executeFetchRequest:request error:nil] firstObject];
-}
-
-
-#pragma mark - Core Data
-
-- (NSEntityDescription*)entityDescription
-{
-    if (!_entityDescription){
-        _entityDescription = [NSEntityDescription entityForName:@"Product" inManagedObjectContext:self.context];
-    }
-    return _entityDescription;
-}
-
-- (NSManagedObjectModel*)model
-{
-    if (!_model){
-        _model = [NSManagedObjectModel mergedModelFromBundles:nil];
-    }
-    return _model;
-}
-
-- (NSPersistentStoreCoordinator*)coordinator
-{
-    if (!_coordinator){
-        _coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.model];
-        [_coordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:nil options:nil error:nil];
-    }
-    return _coordinator;
-}
-
-- (NSManagedObjectContext*)context
-{
-    if (!_context){
-        _context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        _context.persistentStoreCoordinator = self.coordinator;
-    }
-    return _context;
-}
 
 @end

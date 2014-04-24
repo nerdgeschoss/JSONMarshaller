@@ -261,4 +261,15 @@
     }
 }
 
+- (void)ngb_performWriting:(void (^)(NSManagedObjectContext *, id))writingBlock
+{
+    NSManagedObjectContext* context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    context.parentContext = self.managedObjectContext;
+    NSManagedObjectID* objectID = self.objectID;
+    [context performBlockAndWait:^{
+        NSManagedObject* object = [context objectWithID:objectID];
+        writingBlock(context, object);
+    }];
+}
+
 @end
