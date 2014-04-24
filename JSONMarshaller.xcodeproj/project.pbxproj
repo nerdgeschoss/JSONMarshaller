@@ -21,18 +21,11 @@
 		8F31B21419096FFF00271029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F31B1F019096FFF00271029 /* Foundation.framework */; };
 		8F31B21519096FFF00271029 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F31B1F419096FFF00271029 /* UIKit.framework */; };
 		8F31B21D19096FFF00271029 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F31B21B19096FFF00271029 /* InfoPlist.strings */; };
-		8F31B21F19096FFF00271029 /* JSONMarshallerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F31B21E19096FFF00271029 /* JSONMarshallerTests.m */; };
+		8F31B22A1909703800271029 /* Model.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 8F31B2291909703800271029 /* Model.xcdatamodel */; };
+		8F31B22D1909704400271029 /* NSManagedObject+NGBParsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F31B22C1909704400271029 /* NSManagedObject+NGBParsing.m */; };
+		8F31B22F1909706200271029 /* NSManagedObjectParsingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F31B22E1909706200271029 /* NSManagedObjectParsingTests.m */; };
+		8F31B231190975D800271029 /* Model.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 8F31B2291909703800271029 /* Model.xcdatamodel */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		8F31B21619096FFF00271029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8F31B1E519096FFF00271029 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8F31B1EC19096FFF00271029;
-			remoteInfo = JSONMarshaller;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		8F31B1ED19096FFF00271029 /* JSONMarshaller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JSONMarshaller.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,7 +47,10 @@
 		8F31B21219096FFF00271029 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		8F31B21A19096FFF00271029 /* JSONMarshallerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JSONMarshallerTests-Info.plist"; sourceTree = "<group>"; };
 		8F31B21C19096FFF00271029 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		8F31B21E19096FFF00271029 /* JSONMarshallerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONMarshallerTests.m; sourceTree = "<group>"; };
+		8F31B2291909703800271029 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		8F31B22B1909704400271029 /* NSManagedObject+NGBParsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+NGBParsing.h"; sourceTree = "<group>"; };
+		8F31B22C1909704400271029 /* NSManagedObject+NGBParsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+NGBParsing.m"; sourceTree = "<group>"; };
+		8F31B22E1909706200271029 /* NSManagedObjectParsingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSManagedObjectParsingTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +80,7 @@
 		8F31B1E419096FFF00271029 = {
 			isa = PBXGroup;
 			children = (
+				8F31B2281909700700271029 /* Lib */,
 				8F31B1F619096FFF00271029 /* JSONMarshaller */,
 				8F31B21819096FFF00271029 /* JSONMarshallerTests */,
 				8F31B1EF19096FFF00271029 /* Frameworks */,
@@ -140,7 +137,8 @@
 		8F31B21819096FFF00271029 /* JSONMarshallerTests */ = {
 			isa = PBXGroup;
 			children = (
-				8F31B21E19096FFF00271029 /* JSONMarshallerTests.m */,
+				8F31B2291909703800271029 /* Model.xcdatamodel */,
+				8F31B22E1909706200271029 /* NSManagedObjectParsingTests.m */,
 				8F31B21919096FFF00271029 /* Supporting Files */,
 			);
 			path = JSONMarshallerTests;
@@ -153,6 +151,15 @@
 				8F31B21B19096FFF00271029 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8F31B2281909700700271029 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				8F31B22B1909704400271029 /* NSManagedObject+NGBParsing.h */,
+				8F31B22C1909704400271029 /* NSManagedObject+NGBParsing.m */,
+			);
+			name = Lib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,7 +193,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				8F31B21719096FFF00271029 /* PBXTargetDependency */,
 			);
 			name = JSONMarshallerTests;
 			productName = JSONMarshallerTests;
@@ -254,6 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F31B231190975D800271029 /* Model.xcdatamodel in Sources */,
 				8F31B20119096FFF00271029 /* NGBAppDelegate.m in Sources */,
 				8F31B1FD19096FFF00271029 /* main.m in Sources */,
 				8F31B20A19096FFF00271029 /* NGBViewController.m in Sources */,
@@ -264,19 +271,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F31B21F19096FFF00271029 /* JSONMarshallerTests.m in Sources */,
+				8F31B22D1909704400271029 /* NSManagedObject+NGBParsing.m in Sources */,
+				8F31B22A1909703800271029 /* Model.xcdatamodel in Sources */,
+				8F31B22F1909706200271029 /* NSManagedObjectParsingTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		8F31B21719096FFF00271029 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8F31B1EC19096FFF00271029 /* JSONMarshaller */;
-			targetProxy = 8F31B21619096FFF00271029 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8F31B1F919096FFF00271029 /* InfoPlist.strings */ = {
