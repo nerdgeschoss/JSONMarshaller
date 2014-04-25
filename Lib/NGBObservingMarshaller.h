@@ -4,8 +4,8 @@
 
 @protocol NGBObservingMarshallerDelegate <NSObject>
 
-- (void)marshaller:(NGBObservingMarshaller*)marshaller didObserveInsertingObjects:(NSArray*)deletedObjects;
-- (void)marshaller:(NGBObservingMarshaller*)marshaller didObserveUpdatingObjects:(NSArray*)deletedObjects;
+- (void)marshaller:(NGBObservingMarshaller*)marshaller didObserveInsertingObjects:(NSArray*)insertedObjects;
+- (void)marshaller:(NGBObservingMarshaller*)marshaller didObserveUpdatingObjects:(NSArray*)updatedObjects;
 - (void)marshaller:(NGBObservingMarshaller*)marshaller didObserveDeletingObjects:(NSArray*)deletedObjects;
 
 @end
