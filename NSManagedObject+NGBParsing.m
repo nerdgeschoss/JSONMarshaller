@@ -23,10 +23,21 @@
 
 - (NSManagedObject*)ngb_objectForServerID:(NSString*)serverID
 {
-    NSFetchRequest* request = [[NSFetchRequest alloc] initWithEntityName:self.ngb_entityName];
+    return [self ngb_objectForServerID:serverID entity:self.entity createIfNotPresent:NO];
+}
+
+- (NSManagedObject*)ngb_objectForServerID:(NSString*)serverID entity:(NSEntityDescription*)entity createIfNotPresent:(BOOL)createIfNotPresent
+{
+    NSString* serverKey = [self.class ngb_serverIDKeyForEntity:entity];
+    NSFetchRequest* request = [[NSFetchRequest alloc] initWithEntityName:entity.name];
     request.fetchLimit = 1;
-    request.predicate = [NSPredicate predicateWithFormat:@"%K == %@", [self.class ngb_serverIDKeyForEntity:self.entity], serverID];
-    return [[self.managedObjectContext executeFetchRequest:request error:nil] firstObject];
+    request.predicate = [NSPredicate predicateWithFormat:@"%K == %@", serverKey, serverID];
+    NSManagedObject* object = [[self.managedObjectContext executeFetchRequest:request error:nil] firstObject];
+    if (!object && createIfNotPresent) {
+        object = [[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:self.managedObjectContext];
+        [object setValue:serverID forKey:serverKey];
+    }
+    return object;
 }
 
 - (void)ngb_applyValue:(id)value forAttribute:(NSAttributeDescription*)attribute
@@ -94,9 +105,19 @@
 + (NSString*)ngb_serverIDKeyForEntity:(NSEntityDescription*)entity
 {
     NSParameterAssert(entity);
-    NSString* serverKey = entity.userInfo[@"serverKey"];
+    NSString* serverKey = entity.userInfo[@"PrimaryKey"];
     if (!serverKey) {
         serverKey = @"serverID";
+    }
+    return serverKey;
+}
+
++ (NSString*)ngb_remoteIDKeyForEntity:(NSEntityDescription*)entity
+{
+    NSParameterAssert(entity);
+    NSString* serverKey = entity.userInfo[@"RemoteKey"];
+    if (!serverKey) {
+        serverKey = @"id";
     }
     return serverKey;
 }
@@ -171,6 +192,14 @@
 
 - (NSDictionary*)ngb_fields
 {
+    return [self ngb_fieldsAlreadySerializedObjects:nil];
+}
+
+- (NSDictionary*)ngb_fieldsAlreadySerializedObjects:(NSMutableArray*)alreadySerializedObjects
+{
+    if (!alreadySerializedObjects) {
+        alreadySerializedObjects = [NSMutableArray array];
+    }
     NSMutableDictionary* dictionary = [NSMutableDictionary dictionary];
     NSEntityDescription* entityDescription = self.entity;
     
@@ -184,6 +213,8 @@
         }
     }
     
+    [alreadySerializedObjects addObject:self];
+    
     NSDictionary* relations = entityDescription.relationshipsByName;
     for (NSString* relationKey in relations) {
         NSRelationshipDescription* relationship = relations[relationKey];
@@ -191,17 +222,25 @@
         id value = [self valueForKey:relationship.name];
         if (value) {
             if (relationship.isToMany) {
+                BOOL alreadyPresent = NO;
                 NSMutableArray* array = [NSMutableArray array];
                 for (NSManagedObject* object in value) {
-                    NSDictionary* fields = [object ngb_fields];
+                    if ([alreadySerializedObjects containsObject:object]) {
+                        alreadyPresent = YES;
+                        break;
+                    }
+                    NSDictionary* fields = [object ngb_fieldsAlreadySerializedObjects:alreadySerializedObjects];
                     if (fields) {
                         [array addObject:fields];
                     }
                 }
-                dictionary[sourceKey] = array;
+                if (!alreadyPresent) {
+                    dictionary[sourceKey] = array;
+                }
+                
             } else {
-                if ([value isKindOfClass:[NSManagedObject class]]) {
-                    dictionary[sourceKey] = [value ngb_fields];
+                if ([value isKindOfClass:[NSManagedObject class]] && ![alreadySerializedObjects containsObject:value]) {
+                    dictionary[sourceKey] = [value ngb_fieldsAlreadySerializedObjects:alreadySerializedObjects];
                 }
             }
         }
@@ -236,17 +275,22 @@
             NSAssert(false, @"Object in result is of wrong type.");
             return;
         }
+        NSMutableSet* relationObjects = [[self valueForKey:relationship.name] mutableCopy];
         for (NSDictionary* elementDictionary in fields) {
-            NSString* serverID = elementDictionary[[self.class ngb_serverIDKeyForEntity:self.entity]];
+            NSString* serverID = elementDictionary[[self.class ngb_remoteIDKeyForEntity:self.entity]];
             if (serverID) {
                 
-                NSManagedObject* childObject = [self ngb_objectForServerID:serverID];
+                NSManagedObject* childObject = [self ngb_objectForServerID:serverID entity:relationship.destinationEntity createIfNotPresent:YES];
+                if (![relationObjects containsObject:childObject]) {
+                    [relationObjects addObject:childObject];
+                }
                 [childObject ngb_applyFields:elementDictionary];
             } else {
                 NSAssert(false, @"Missing server ID in response.");
                 return;
             }
         }
+        [self setValue:relationObjects forKey:relationship.name];
     } else {
         if (![fields isKindOfClass:[NSDictionary class]]) {
             NSAssert(false, @"Object in result is of wrong type.");

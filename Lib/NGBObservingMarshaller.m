@@ -1,5 +1,11 @@
 #import "NGBObservingMarshaller.h"
 
+@interface NGBObservingMarshaller()
+
+@property (nonatomic, getter = isMarshalling) BOOL marshalling;
+
+@end
+
 @implementation NGBObservingMarshaller
 
 - (instancetype)initWithEntity:(NSEntityDescription *)entity context:(NSManagedObjectContext *)context
@@ -13,14 +19,50 @@
 
 - (void)didObserveChanges:(NSNotification*)notification
 {
+    if (self.isMarshalling) {
+        return;
+    }
+    
     NSArray* insertedObjectCandidates = notification.userInfo[NSInsertedObjectsKey];
-    NSMutableArray* insertedObjects = [NSMutableArray array];
-    for (NSManagedObject* object in insertedObjectCandidates) {
+    NSArray* insertedObjects = [self filteredObjectsFromArray:insertedObjectCandidates];
+    if (insertedObjects.count) {
+        [self.delegate marshaller:self didObserveInsertingObjects:insertedObjects];
+    }
+    
+    
+}
+
+- (NSArray*)filteredObjectsFromArray:(NSArray*)array
+{
+    NSMutableArray* objects = [NSMutableArray array];
+    for (NSManagedObject* object in array) {
         if ([object.entity isKindOfEntity:self.entity]) {
-            [insertedObjects addObject:object];
+            [objects addObject:object];
         }
     }
-    [self.delegate marshaller:self didObserveInsertingObjects:insertedObjects];
+    return objects;
+}
+
+- (void)beginUntrackedChanges
+{
+    [self.managedObjectContext processPendingChanges];
+    self.marshalling = YES;
+}
+
+- (void)endUntrackedChanges
+{
+    [self.managedObjectContext processPendingChanges];
+    self.marshalling = NO;
+}
+
+#pragma mark - Overwrites
+
+- (NSManagedObject *)createObjectWithID:(NSString *)identifier fields:(NSDictionary *)fields
+{
+    [self beginUntrackedChanges];
+    NSManagedObject* object = [super createObjectWithID:identifier fields:fields];
+    [self endUntrackedChanges];
+    return object;
 }
 
 @end

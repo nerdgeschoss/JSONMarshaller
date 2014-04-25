@@ -46,6 +46,77 @@
     XCTAssertEqualObjects(result[@"url"], url, @"url should be saved and transformed");
 }
 
+- (void)testCreatingNestedObject
+{
+    NSString* title = @"test";
+    NSString* name = @"Klaus";
+    NSDictionary* fields = @{
+                             @"title": title,
+                             @"customer":
+                                 @{
+                                     @"name": name
+                                  }
+                             };
+    NSManagedObject* object = [[NSManagedObject alloc] initWithEntity:self.entityDescription insertIntoManagedObjectContext:self.context];
+    [object ngb_applyFields:fields];
+    NSManagedObject* product = [self getFirstObject];
+    NSManagedObject* customer = [product valueForKey:@"customer"];
+    XCTAssertEqualObjects([customer valueForKey:@"name"], name, @"nested name should be saved");
+}
+
+- (void)testCreatingMultipleNestedObjects
+{
+    NSString* title = @"test";
+    NSString* name = @"Klaus";
+    NSDictionary* fields = @{
+                             @"name": name,
+                             @"products":
+                                 @[
+                                     @{
+                                         @"id":@"first-product",
+                                         @"title": title
+                                         },
+                                     @{
+                                         @"id":@"second-product",
+                                         @"title": title
+                                         }
+                                     ]
+                             };
+    NSManagedObject* object = [[NSManagedObject alloc] initWithEntity:[NSEntityDescription entityForName:@"Customer" inManagedObjectContext:self.context] insertIntoManagedObjectContext:self.context];
+    
+    [object ngb_applyFields:fields];
+    
+    NSManagedObject* product = [[object valueForKey:@"products"] anyObject];
+    XCTAssertEqualObjects([product valueForKey:@"title"], title, @"nested title should be saved");
+    XCTAssertEqual([[object valueForKey:@"products"] count], 2, @"there should be 2 products");
+}
+
+- (void)testSerializingNestedObject
+{
+    NSString* name = @"Klaus";
+    NSManagedObject* product = [self createObject];
+    NSManagedObject* customer = [[NSManagedObject alloc] initWithEntity:[NSEntityDescription entityForName:@"Customer" inManagedObjectContext:self.context] insertIntoManagedObjectContext:self.context];
+    [customer setValue:name forKey:@"name"];
+    [product setValue:customer forKey:@"customer"];
+    
+    NSDictionary* dictionary = [product ngb_fields];
+
+    XCTAssertEqualObjects([dictionary valueForKeyPath:@"customer.name"], name, @"nested name should be saved");
+}
+
+- (void)testSerializingMultipleNestedObjects
+{
+    NSString* name = @"Klaus";
+    NSManagedObject* product = [self createObject];
+    NSManagedObject* customer = [[NSManagedObject alloc] initWithEntity:[NSEntityDescription entityForName:@"Customer" inManagedObjectContext:self.context] insertIntoManagedObjectContext:self.context];
+    [customer setValue:name forKey:@"name"];
+    [product setValue:customer forKey:@"customer"];
+    
+    NSDictionary* dictionary = [customer ngb_fields];
+    
+    XCTAssertEqual([[dictionary valueForKeyPath:@"products"] count], 1, @"nested name should be saved");
+}
+
 - (void)testUpdateMessage
 {
     NSString* title = @"test";

@@ -14,4 +14,7 @@
 
 @property (nonatomic, weak) id<NGBObservingMarshallerDelegate> delegate;
 
+- (void)beginUntrackedChanges;
+- (void)endUntrackedChanges;
+
 @end

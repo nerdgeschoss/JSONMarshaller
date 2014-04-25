@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C1021" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Customer" syncable="YES">
-        <attribute name="attribute" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="serverID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Product" inverseName="customer" inverseEntity="Product" syncable="YES"/>
@@ -21,11 +20,12 @@
         <userInfo>
             <entry key="created_at" value="createdAt"/>
             <entry key="minor_title" value="subtitle"/>
-            <entry key="serverKey" value="serverID"/>
+            <entry key="PrimaryKey" value="serverID"/>
+            <entry key="RemoteKey" value="id"/>
         </userInfo>
     </entity>
     <elements>
-        <element name="Customer" positionX="0" positionY="36" width="128" height="105"/>
-        <element name="Product" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="Customer" positionX="0" positionY="36" width="128" height="90"/>
+        <element name="Product" positionX="-281" positionY="-27" width="128" height="148"/>
     </elements>
 </model>
