@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "NGBMarshaller"
-  s.version      = "0.1.0"
+  s.version      = "0.2.0"
   s.summary      = "Marshalling JSON to NSManagedObject and vice versa."
 
   s.description  = <<-DESC
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, '7.0'
 
-  s.source       = { :git => "git@gitlab.nerdgeschossberlin.de:mylane/jsonmarshaller.git", :tag => "0.1.0" }
+  s.source       = { :git => "git@gitlab.nerdgeschossberlin.de:mylane/jsonmarshaller.git", :tag => "0.2.0" }
 
   s.source_files  = 'Lib'
 
