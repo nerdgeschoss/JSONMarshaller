@@ -115,7 +115,9 @@
 + (NSString*)ngb_remoteIDKeyForEntity:(NSEntityDescription*)entity
 {
     NSParameterAssert(entity);
-    NSString* serverKey = entity.userInfo[@"RemoteKey"];
+    NSString* primaryKey = entity.userInfo[@"PrimaryKey"];
+    NSRelationshipDescription* relation = entity.relationshipsByName[primaryKey];
+    NSString* serverKey = relation.userInfo[@"RemoteKey"];
     if (!serverKey) {
         serverKey = @"id";
     }
@@ -208,7 +210,7 @@
         NSAttributeDescription* attribute = properties[attributeKey];
         NSString* sourceKey = [self.class ngb_sourceKeyForAttribute:attribute];
         id value = [self ngb_valueForAttribute:attribute];
-        if (value) {
+        if (sourceKey && value) {
             dictionary[sourceKey] = value;
         }
     }
@@ -220,7 +222,7 @@
         NSRelationshipDescription* relationship = relations[relationKey];
         NSString* sourceKey = [self.class ngb_sourceKeyForRelationship:relationship];
         id value = [self valueForKey:relationship.name];
-        if (value) {
+        if (sourceKey && value) {
             if (relationship.isToMany) {
                 BOOL alreadyPresent = NO;
                 NSMutableArray* array = [NSMutableArray array];
@@ -250,12 +252,12 @@
 
 + (NSString*)ngb_sourceKeyForAttribute:(NSAttributeDescription*)attribute
 {
-    return [self ngb_sourceKeyForPropertyWithName:attribute.name ofEntity:attribute.entity];
+    return attribute.userInfo[@"RemoteKey"];
 }
 
 + (NSString*)ngb_sourceKeyForRelationship:(NSRelationshipDescription*)relationship
 {
-    return [self ngb_sourceKeyForPropertyWithName:relationship.name ofEntity:relationship.entity];
+    return relationship.userInfo[@"RemoteKey"];
 }
 
 + (NSString*)ngb_sourceKeyForPropertyWithName:(NSString*)name ofEntity:(NSEntityDescription*)entity

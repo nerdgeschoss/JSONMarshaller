@@ -1,31 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13C1021" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Customer" syncable="YES">
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="serverID" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
-        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Product" inverseName="customer" inverseEntity="Product" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="RemoteKey" value="name"/>
+            </userInfo>
+        </attribute>
+        <attribute name="serverID" optional="YES" attributeType="String" indexed="YES" syncable="YES">
+            <userInfo>
+                <entry key="RemoteKey" value="id"/>
+            </userInfo>
+        </attribute>
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Product" inverseName="customer" inverseEntity="Product" syncable="YES">
+            <userInfo>
+                <entry key="RemoteKey" value="products"/>
+            </userInfo>
+        </relationship>
+        <userInfo>
+            <entry key="PrimaryKey" value="serverID"/>
+        </userInfo>
+    </entity>
+    <entity name="LocalInventory" syncable="YES">
+        <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" inverseName="inventory" inverseEntity="Product" syncable="YES"/>
     </entity>
     <entity name="Product" syncable="YES">
-        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="price" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="serverID" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="subtitle" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="title" attributeType="String" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="RemoteKey" value="created_at"/>
+            </userInfo>
+        </attribute>
+        <attribute name="price" attributeType="Float" defaultValueString="0.0" syncable="YES">
+            <userInfo>
+                <entry key="RemoteKey" value="price"/>
+            </userInfo>
+        </attribute>
+        <attribute name="secretPin" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="serverID" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="RemoteKey" value="id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="subtitle" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="RemoteKey" value="minor_title"/>
+            </userInfo>
+        </attribute>
+        <attribute name="title" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="RemoteKey" value="title"/>
+            </userInfo>
+        </attribute>
         <attribute name="url" optional="YES" attributeType="Transformable" syncable="YES">
             <userInfo>
+                <entry key="RemoteKey" value="url"/>
                 <entry key="type" value="url"/>
             </userInfo>
         </attribute>
-        <relationship name="customer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Customer" inverseName="products" inverseEntity="Customer" syncable="YES"/>
+        <relationship name="customer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Customer" inverseName="products" inverseEntity="Customer" syncable="YES">
+            <userInfo>
+                <entry key="RemoteKey" value="customer"/>
+            </userInfo>
+        </relationship>
+        <relationship name="inventory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocalInventory" inverseName="product" inverseEntity="LocalInventory" syncable="YES"/>
         <userInfo>
-            <entry key="created_at" value="createdAt"/>
-            <entry key="minor_title" value="subtitle"/>
             <entry key="PrimaryKey" value="serverID"/>
-            <entry key="RemoteKey" value="id"/>
         </userInfo>
     </entity>
     <elements>
-        <element name="Customer" positionX="0" positionY="36" width="128" height="90"/>
-        <element name="Product" positionX="-281" positionY="-27" width="128" height="148"/>
+        <element name="Customer" positionX="0" positionY="36" width="128" height="88"/>
+        <element name="Product" positionX="-281" positionY="-27" width="128" height="178"/>
+        <element name="LocalInventory" positionX="-504" positionY="44" width="128" height="73"/>
     </elements>
 </model>

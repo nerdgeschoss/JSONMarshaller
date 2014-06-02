@@ -36,14 +36,17 @@
     NSString* title = @"test";
     NSString* url = @"http://google.com";
     NSString* subtitle = @"subtitle";
+    NSString* secretPin = @"0000";
     NSManagedObject* object = [[NSManagedObject alloc] initWithEntity:self.entityDescription insertIntoManagedObjectContext:self.context];
     [object setValue:title forKey:@"title"];
     [object setValue:subtitle forKey:@"subtitle"];
     [object setValue:[NSURL URLWithString:url] forKey:@"url"];
+    [object setValue:secretPin forKey:@"secretPin"];
     NSDictionary* result = [object ngb_fields];
     XCTAssertEqualObjects(result[@"title"], title, @"title should be saved");
     XCTAssertEqualObjects(result[@"minor_title"], subtitle, @"subtitle should be saved");
     XCTAssertEqualObjects(result[@"url"], url, @"url should be saved and transformed");
+    XCTAssertFalse([[result allValues] containsObject:secretPin], @"objects without remote key should not be serialized");
 }
 
 - (void)testCreatingNestedObject
@@ -96,12 +99,15 @@
     NSString* name = @"Klaus";
     NSManagedObject* product = [self createObject];
     NSManagedObject* customer = [[NSManagedObject alloc] initWithEntity:[NSEntityDescription entityForName:@"Customer" inManagedObjectContext:self.context] insertIntoManagedObjectContext:self.context];
+    NSManagedObject* inventory = [[NSManagedObject alloc] initWithEntity:[NSEntityDescription entityForName:@"LocalInventory" inManagedObjectContext:self.context] insertIntoManagedObjectContext:self.context];
     [customer setValue:name forKey:@"name"];
     [product setValue:customer forKey:@"customer"];
+    [inventory setValue:@(5) forKey:@"count"];
     
     NSDictionary* dictionary = [product ngb_fields];
 
     XCTAssertEqualObjects([dictionary valueForKeyPath:@"customer.name"], name, @"nested name should be saved");
+    XCTAssertNil(dictionary[@"inventory"], @"private relations should not be serialized");
 }
 
 - (void)testSerializingMultipleNestedObjects
