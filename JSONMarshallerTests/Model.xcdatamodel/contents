@@ -20,6 +20,23 @@
             <entry key="PrimaryKey" value="serverID"/>
         </userInfo>
     </entity>
+    <entity name="Image" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="RemoteKey" value="name"/>
+            </userInfo>
+        </attribute>
+        <attribute name="serverID" optional="YES" attributeType="String" indexed="YES" syncable="YES">
+            <userInfo>
+                <entry key="RemoteKey" value="id"/>
+            </userInfo>
+        </attribute>
+        <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" inverseName="images" inverseEntity="Product" syncable="YES"/>
+        <relationship name="productOfImage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" inverseName="mainImage" inverseEntity="Product" syncable="YES"/>
+        <userInfo>
+            <entry key="PrimaryKey" value="serverID"/>
+        </userInfo>
+    </entity>
     <entity name="LocalInventory" syncable="YES">
         <attribute name="count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" inverseName="inventory" inverseEntity="Product" syncable="YES"/>
@@ -62,14 +79,28 @@
                 <entry key="RemoteKey" value="customer"/>
             </userInfo>
         </relationship>
+        <relationship name="images" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Image" inverseName="product" inverseEntity="Image" syncable="YES">
+            <userInfo>
+                <entry key="PrimaryKey" value="serverID"/>
+                <entry key="RemoteKey" value="images"/>
+                <entry key="SerializeMode" value="PrimaryKey"/>
+            </userInfo>
+        </relationship>
         <relationship name="inventory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="LocalInventory" inverseName="product" inverseEntity="LocalInventory" syncable="YES"/>
+        <relationship name="mainImage" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="productOfImage" inverseEntity="Image" syncable="YES">
+            <userInfo>
+                <entry key="RemoteKey" value="mainImage"/>
+                <entry key="SerializeMode" value="PrimaryKey"/>
+            </userInfo>
+        </relationship>
         <userInfo>
             <entry key="PrimaryKey" value="serverID"/>
         </userInfo>
     </entity>
     <elements>
         <element name="Customer" positionX="0" positionY="36" width="128" height="88"/>
-        <element name="Product" positionX="-281" positionY="-27" width="128" height="178"/>
         <element name="LocalInventory" positionX="-504" positionY="44" width="128" height="73"/>
+        <element name="Product" positionX="-281" positionY="-27" width="128" height="208"/>
+        <element name="Image" positionX="-45" positionY="180" width="128" height="103"/>
     </elements>
 </model>

@@ -67,6 +67,57 @@
     XCTAssertEqualObjects([customer valueForKey:@"name"], name, @"nested name should be saved");
 }
 
+- (void)testSerializingSingleReferencedObject
+{
+    NSString* title = @"test";
+    NSString* name = @"Klaus";
+    NSString* imageID = @"1";
+    NSDictionary* fields = @{
+                             @"title": title,
+                             @"mainImage":
+                                
+                                     @{
+                                         @"name": name,
+                                         @"id": imageID
+                                         }
+                             
+                             };
+    NSManagedObject* object = [[NSManagedObject alloc] initWithEntity:self.entityDescription insertIntoManagedObjectContext:self.context];
+    [object ngb_applyFields:fields];
+    NSManagedObject* product = [self getFirstObject];
+    
+    NSDictionary* dictionary = [product ngb_fields];
+    
+    id image = dictionary[@"mainImage"];
+    XCTAssertEqualObjects(image, imageID, @"first image id should be the supplied id");
+}
+
+- (void)testSerializingReferencedObjects
+{
+    NSString* title = @"test";
+    NSString* name = @"Klaus";
+    NSString* imageID = @"1";
+    NSDictionary* fields = @{
+                             @"title": title,
+                             @"images":
+                                 @[
+                                     @{
+                                         @"name": name,
+                                         @"id": imageID
+                                     }
+                                 ]
+                             };
+    NSManagedObject* object = [[NSManagedObject alloc] initWithEntity:self.entityDescription insertIntoManagedObjectContext:self.context];
+    [object ngb_applyFields:fields];
+    NSManagedObject* product = [self getFirstObject];
+    
+    NSDictionary* dictionary = [product ngb_fields];
+
+    NSArray* images = dictionary[@"images"];
+    XCTAssertEqual([images count], 1, @"images should be included as IDs");
+    XCTAssertEqualObjects(images[0], imageID, @"first image id should be the supplied id");
+}
+
 - (void)testCreatingMultipleNestedObjects
 {
     NSString* title = @"test";

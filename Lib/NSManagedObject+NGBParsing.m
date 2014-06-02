@@ -52,6 +52,11 @@
         case NSDecimalAttributeType:
             [self setValue:@([value doubleValue]) forKey:attribute.name];
             break;
+        case NSInteger16AttributeType:
+        case NSInteger32AttributeType:
+        case NSInteger64AttributeType:
+            [self setValue:@([value integerValue]) forKey:attribute.name];
+            break;
         case NSStringAttributeType:
             [self setValue:[value description] forKey:attribute.name];
             break;
@@ -60,6 +65,9 @@
             [self setValue:date forKey:attribute.name];
             break;
         }
+        case NSBooleanAttributeType:
+            [self setValue:[value boolValue]? @YES : @NO forKey:attribute.name];
+            break;
             
         case NSTransformableAttributeType:{
             NSString* type = [self.class ngb_typeForAttribute:attribute];
@@ -82,6 +90,11 @@
         case NSDecimalAttributeType:
             return [value stringValue];
             break;
+        case NSInteger16AttributeType:
+        case NSInteger32AttributeType:
+        case NSInteger64AttributeType:
+            return value;
+            break;
         case NSStringAttributeType:
             return value;
             break;
@@ -94,6 +107,9 @@
             NSString* type = [self.class ngb_typeForAttribute:attribute];
             return [self.class ngb_valueFromObject:value ofCustomType:type];
         }
+            break;
+        case NSBooleanAttributeType:
+            return [value boolValue]? @YES : @NO;
             break;
         default:
             NSAssert(false, @"Unsupported Attribute Type");
@@ -231,7 +247,12 @@
                         alreadyPresent = YES;
                         break;
                     }
-                    NSDictionary* fields = [object ngb_fieldsAlreadySerializedObjects:alreadySerializedObjects];
+                    id fields;
+                    if ([relationship.userInfo[@"SerializeMode"] isEqualToString:@"PrimaryKey"]) {
+                        fields = [object ngb_primaryKey];
+                    } else {
+                        fields = [object ngb_fieldsAlreadySerializedObjects:alreadySerializedObjects];
+                    }
                     if (fields) {
                         [array addObject:fields];
                     }
@@ -242,7 +263,11 @@
                 
             } else {
                 if ([value isKindOfClass:[NSManagedObject class]] && ![alreadySerializedObjects containsObject:value]) {
-                    dictionary[sourceKey] = [value ngb_fieldsAlreadySerializedObjects:alreadySerializedObjects];
+                    if ([relationship.userInfo[@"SerializeMode"] isEqualToString:@"PrimaryKey"]) {
+                        dictionary[sourceKey] = [value ngb_primaryKey];
+                    } else {
+                        dictionary[sourceKey] = [value ngb_fieldsAlreadySerializedObjects:alreadySerializedObjects];
+                    }
                 }
             }
         }
@@ -268,6 +293,11 @@
         sourceKey = name;
     }
     return sourceKey;
+}
+
+- (id)ngb_primaryKey
+{
+    return [self valueForKey:[self.class ngb_serverIDKeyForEntity:self.entity]];
 }
 
 - (void)ngb_applyFields:(id)fields toRelationship:(NSRelationshipDescription*)relationship

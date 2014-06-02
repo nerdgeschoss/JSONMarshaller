@@ -29,6 +29,12 @@
         [self.delegate marshaller:self didObserveInsertingObjects:insertedObjects];
     }
     
+    NSArray* updatedObjectCandidates = notification.userInfo[NSUpdatedObjectsKey];
+    NSArray* updatedObjects = [self filteredObjectsFromArray:updatedObjectCandidates];
+    if (updatedObjects.count) {
+        [self.delegate marshaller:self didObserveUpdatingObjects:updatedObjects];
+    }
+    
     
 }
 
