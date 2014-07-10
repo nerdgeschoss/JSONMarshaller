@@ -20,13 +20,15 @@
                              @"minor_title": subtitle,
                              @"url": url,
                              @"price": priceString,
-                             @"created_at": date
+                             @"created_at": date,
+                             @"favorite": @YES
                              };
     NSManagedObject* object = [[NSManagedObject alloc] initWithEntity:self.entityDescription insertIntoManagedObjectContext:self.context];
     [object ngb_applyFields:fields];
     NSManagedObject* product = [self getFirstObject];
     XCTAssertEqualObjects([product valueForKey:@"title"], title, @"title should be saved");
     XCTAssertEqualObjects([product valueForKey:@"subtitle"], subtitle, @"subtitle should be saved");
+    XCTAssertEqualObjects([product valueForKey:@"favorite"], @YES, @"favorite status should be saved");
     XCTAssertEqualObjects([product valueForKey:@"url"], [NSURL URLWithString:url], @"url should be saved and transformed");
     XCTAssertEqualObjects([product valueForKey:@"createdAt"], [NSDate dateWithTimeIntervalSince1970:timestamp], @"date should be saved and transformed");
 }

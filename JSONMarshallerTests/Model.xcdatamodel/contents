@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13D65" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13E28" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Customer" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
@@ -45,6 +45,11 @@
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES">
             <userInfo>
                 <entry key="RemoteKey" value="created_at"/>
+            </userInfo>
+        </attribute>
+        <attribute name="favorite" attributeType="Boolean" defaultValueString="NO" syncable="YES">
+            <userInfo>
+                <entry key="RemoteKey" value="favorite"/>
             </userInfo>
         </attribute>
         <attribute name="price" attributeType="Float" defaultValueString="0.0" syncable="YES">
@@ -99,8 +104,8 @@
     </entity>
     <elements>
         <element name="Customer" positionX="0" positionY="36" width="128" height="88"/>
-        <element name="LocalInventory" positionX="-504" positionY="44" width="128" height="73"/>
-        <element name="Product" positionX="-281" positionY="-27" width="128" height="208"/>
         <element name="Image" positionX="-45" positionY="180" width="128" height="103"/>
+        <element name="LocalInventory" positionX="-504" positionY="44" width="128" height="73"/>
+        <element name="Product" positionX="-281" positionY="-27" width="128" height="223"/>
     </elements>
 </model>
