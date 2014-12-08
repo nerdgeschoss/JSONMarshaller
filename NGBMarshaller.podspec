@@ -8,15 +8,15 @@ Pod::Spec.new do |s|
                    A simple way to parse JSON to NSManagedObject and observe changes.
                    DESC
 
-  s.homepage     = "http://nerdgeschossberlin.de"
+  s.homepage     = "http://nerdgeschoss.de"
 
   s.license      = 'MIT'
 
-  s.author             = { "Jens Ravens" => "jens@nerdgeschossberlin.de" }
+  s.author             = { "Jens Ravens" => "jens@nerdgeschoss.de" }
 
   s.platform     = :ios, '7.0'
 
-  s.source       = { :git => "git@gitlab.nerdgeschossberlin.de:mylane/jsonmarshaller.git", :tag => "0.2.0" }
+  s.source       = { :git => "git@github.com:nerdgeschoss/JSONMarshaller.git", :tag => "v0.2.0" }
 
   s.source_files  = 'Lib'
 
