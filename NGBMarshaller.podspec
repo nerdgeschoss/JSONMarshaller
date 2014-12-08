@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 
-  s.name         = "NGBMarshaller"
+  s.name         = "JSONMarshaller"
   s.version      = "0.2.0"
   s.summary      = "Marshalling JSON to NSManagedObject and vice versa."
 
