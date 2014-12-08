@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, '7.0'
 
-  s.source       = { :git => "git@github.com:nerdgeschoss/JSONMarshaller.git", :tag => "v0.2.0" }
+  s.source       = { :git => "https://github.com/nerdgeschoss/JSONMarshaller.git", :tag => "v0.2.0" }
 
   s.source_files  = 'Lib'
 
