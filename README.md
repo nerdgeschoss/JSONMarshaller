@@ -30,7 +30,7 @@ JSONMarshaller works only on iOS7 and up.
 
 ## Adding JSONMarshaller to your project
 
-### Cocoapods
+### CocoaPods
 
 [CocoaPods](http://cocoapods.org) is the recommended way to add JSONMarshaller to your project.
 
